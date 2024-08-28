@@ -1,8 +1,2 @@
 #Application environment variables
 .env
-
-# Node Modules
-node_modules
-
-# Logs
-.idea
