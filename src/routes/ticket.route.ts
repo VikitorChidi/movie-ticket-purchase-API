@@ -11,7 +11,7 @@ router.get('/tickets', TicketController.getTickets)
 /**
  * Get a ticket by id
  */
-router.get('/ticket/:id', TicketController.getATicket)
+router.get('/:id', TicketController.getATicket)
 
 /**
  * @swagger
