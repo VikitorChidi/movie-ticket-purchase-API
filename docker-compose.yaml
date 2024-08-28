@@ -1,0 +1,24 @@
+version: '3'
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/movie_ticket
+      - MAIL_HOST=smtp.gmail.com
+      - MAIL_SERVICE=Gmail
+      - MAIL_USERNAME=victorblessed9@gmail.com
+      - MAIL_PASSWORD=sjym qavs moko dqts
+      - MAIL_FROM=victorblessed9@gmail.com
+      - WEBHOOK_URL=https://webhook.site/21fd7778-6808-4bd5-bcd0-57acdd10402a
+      - PAYSTACK_SECRET_KEY=sk_test_e872b1e6f9de929e1e2b18c51f1ae49da4f8b608
+    depends_on:
+      - mongo
+  mongo:
+    image: bitnami/mongodb:5.0
+    ports:
+      - "27017:27017"
+    environment:
+      MONGODB_REPLICA_SET_MODE: primary
+      ALLOW_EMPTY_PASSWORD: 'yes'
