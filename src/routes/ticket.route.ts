@@ -1,5 +1,6 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import { TicketController } from "../controllers/ticket.controller";
+import { check, param, validationResult } from 'express-validator';
 
 const router = express.Router();
 
@@ -40,7 +41,20 @@ router.get('/all', TicketController.getTickets);
  *       404:
  *         description: Ticket not found
  */
-router.get('/:id', TicketController.getATicket);
+router.get(
+    '/:id',
+    [
+        param('id').isMongoId().withMessage('Invalid ticket ID format'),
+    ],
+    (req: Request, res: Response, next: NextFunction) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        next();
+    },
+    TicketController.getATicket
+);
 
 /**
  * @swagger
@@ -81,6 +95,21 @@ router.get('/:id', TicketController.getATicket);
  *       500:
  *         description: Internal server error
  */
-router.post('/book-ticket', TicketController.bookTicket);
+router.post(
+    '/book-ticket',
+    [
+        check('movieId').isMongoId().withMessage('Invalid movie ID format'),
+        check('userId').isMongoId().withMessage('Invalid user ID format'),
+        check('price').isFloat({ gt: 0 }).withMessage('Price must be a positive number'),
+    ],
+    (req: Request, res: Response, next: NextFunction) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        next();
+    },
+    TicketController.bookTicket
+);
 
 export default router;

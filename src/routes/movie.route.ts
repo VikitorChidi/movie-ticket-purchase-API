@@ -1,5 +1,6 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import { MovieController } from "../controllers/movie.controller";
+import { check, param, validationResult } from 'express-validator';
 
 const router = express.Router();
 
@@ -46,7 +47,20 @@ router.get('/all', MovieController.getMovies);
  *       404:
  *         description: Movie not found
  */
-router.get('/:id', MovieController.getAMovie);
+router.get(
+    '/:id',
+    [
+        param('id').isMongoId().withMessage('Invalid movie ID format'),
+    ],
+    (req: Request, res: Response, next: NextFunction) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        next();
+    },
+    MovieController.getAMovie
+);
 
 /**
  * @swagger
@@ -74,6 +88,22 @@ router.get('/:id', MovieController.getAMovie);
  *       500:
  *         description: Internal server error
  */
-router.post('/new', MovieController.createMovie);
+router.post(
+    '/new',
+    [
+        check('name').notEmpty().withMessage('Name is required'),
+        check('release_date').isISO8601().withMessage('Invalid release date format'),
+        check('duration').isInt({ min: 1 }).withMessage('Duration must be a positive integer'),
+        check('genre').notEmpty().withMessage('Genre is required'),
+    ],
+    (req: Request, res: Response, next: NextFunction) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        next();
+    },
+    MovieController.createMovie
+);
 
 export default router;
