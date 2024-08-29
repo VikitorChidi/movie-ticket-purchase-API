@@ -13,7 +13,7 @@ const swaggerOptions: swaggerJsdoc.Options = {
         },
         servers: [
             {
-                url: `${baseUrl}:${port}`,
+                url: `${baseUrl}:${port}/api/v1`,
                 description: 'Development server',
             },
         ],
@@ -83,6 +83,51 @@ const swaggerOptions: swaggerJsdoc.Options = {
                         },
                         time_booked: '2024-06-01T09:10:53Z',
                     },
+                },
+                Movie: {
+                    type: 'object',
+                    properties: {
+                        name: {
+                            type: 'string',
+                            description: 'The name of the movie',
+                        },
+                        description: {
+                            type: 'string',
+                            description: 'A brief description of the movie',
+                        },
+                        release_date: {
+                            type: 'string',
+                            format: 'date',
+                            description: 'The release date of the movie',
+                        },
+                        duration: {
+                            type: 'number',
+                            description: 'The duration of the movie in minutes',
+                        },
+                        genre: {
+                            type: 'string',
+                            description: 'The genre of the movie',
+                        },
+                    },
+                    required: ['name', 'release_date', 'duration', 'genre'],
+                },
+                User: {
+                    type: 'object',
+                    properties: {
+                        name: {
+                            type: 'string',
+                            description: 'The name of the user',
+                        },
+                        phone_number: {
+                            type: 'string',
+                            description: 'The phone number of the user',
+                        },
+                        email: {
+                            type: 'string',
+                            description: 'The email of the user',
+                        },
+                    },
+                    required: ['name', 'phone_number', 'email'],
                 },
             },
         },

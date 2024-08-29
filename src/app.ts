@@ -15,7 +15,7 @@ import UserRoutes from './routes/user.route'
 /**
  * Get the port from the config file
  */
-const { port} = config()
+const { port, baseUrl} = config()
 
 /**
  * Create an express app
@@ -38,7 +38,7 @@ app.use('/api/v1/user', UserRoutes )
 /**
  * Middleware to serve Swagger UI
  */
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
 
 /**
@@ -49,7 +49,7 @@ connectToDatabase()
 /**
  * Start the server
  */
-app.listen(port, () => {
+app.listen(port, async () => {
     console.log(`Server is running on http://localhost:${port}`);
 })
 
