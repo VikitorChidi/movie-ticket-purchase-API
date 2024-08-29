@@ -50,7 +50,8 @@ connectToDatabase()
  * Start the server
  */
 app.listen(port, async () => {
-    console.log(`Server is running on http://localhost:${port}`);
+    console.log(`Server is running on ${baseUrl}:${port}`);
+    console.log(`Swagger is running on ${baseUrl}:${port}/api-docs`);
 })
 
 export default app;
