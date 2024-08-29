@@ -36,6 +36,7 @@ This project is a Movie Ticket Purchase API built with Node.js, Express.js, Mong
    MAIL_PASSWORD=your-password
    MAIL_FROM=your-email-address
    WEBHOOK_SECRET=your-webhook-secret
+   PAYSTACK_SECRET_KEY=your-paystack-secret-key
    ```
 4. **Start the Server**
 
